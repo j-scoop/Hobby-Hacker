@@ -8,7 +8,10 @@ You may also delete your hobbies if they are no longer needed.
 ## How to use
 
 Install packages from requirements.txt
+
 Set the variable FLASK_APP = "application.py" in your virtual environment
+
+
 Navigate to the Project directory and execute the following:
 
 flask run
