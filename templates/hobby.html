@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ hobby }}
+{% endblock %}
+
+{% block main %}
+
+<button class="open-button" id="logButton" onclick="openLog()">Log Hobby</button>
+
+<div class="form-popup" id="logForm">
+  <form action="/hobby" method="post" class="form-container">
+    <h1>Log Hobby</h1>
+
+    <label for="time"><b>Time Spent *</b></label>
+    <div>
+        <input type="number" step="0.25" name="time">
+    </div>
+
+    <label for="date"><b>Date *</b></label>
+    <div>
+        <input type="date" name="date" required>
+    </div>
+
+    <label for="comment"><b>Comment</b></label>
+    <input type="text" placeholder="Comment" name="comment">
+
+    <input type="hidden" id="hiddenId" name="hobby" value="{{ hobby }}">
+
+    <button type="submit" class="btn">Log</button>
+    <button type="button" class="btn cancel" onclick="closeLog()">Close</button>
+
+    * Required fields
+  </form>
+</div>
+
+<button class="open-button" id="amendButton" onclick="openAmend()">Amend Hobby</button>
+
+<div class="form-popup" id="amendForm">
+  <form action="/hobby" method="post" class="form-container">
+    Rename?
+    <input name="name" value="{{ hobby }}" placeholder="{{ hobby }}" type="text">
+    <div>
+        Repeat?
+    </div>
+    <div class="form-group">
+        <select autocomplete="off" autofocus class="form-control" name="repeat" multiple="multiple">
+            <option value="monday">Monday</option>
+            <option value="tuesday">Tuesday</option>
+            <option value="wednesday">Wednesday</option>
+            <option value="thursday">Thursday</option>
+            <option value="friday">Friday</option>
+            <option value="saturday">Saturday</option>
+            <option value="sunday">Sunday</option>
+        </select>
+        <div>
+            Set Reminder?
+        </div>
+    </div>
+    <input type="time" name="reminder">
+
+    <input type="hidden" id="amendHobbyHidden" name="hobby" value="{{ hobby }}">
+    <input type="hidden" name="amend">
+    <button type="submit" class="btn">Save</button>
+    <button type="button" class="btn cancel" onclick="closeAmend()">Close</button>
+  </form>
+  Or
+  <form action="/hobby" method="post" class="form-container">
+    <input type="hidden" id="amendHobbyHidden" name="hobby" value="{{ hobby }}">
+    <button type="submit" name="archive" class="btn" value="true">Archive hobby</button>
+    <button type="button" class="btn" id="deleteButton" onclick="openDelete()">Delete hobby</button>
+  </form>
+</div>
+
+<div class="form-popup" id="confirm-delete-form">
+  <form action="/hobby" method="post" class="form-container">
+    Are you sure?
+    <input type="hidden" id="hidDlt" name="hobby" value="{{ hobby }}">
+    <button type="submit" name="dlt" value="true" class="btn">Yes</button>
+    <button type="button" class="btn cancel" onclick="closeDelete()">No</button>
+  </form>
+</div>
+
+<h3>
+  <div>{{ totalHrs }} hours logged in total</div>
+  <div> {{ rangedStr }}</div>
+</h3>
+
+  <div class="hobby-row">
+    <div class="hobby-column">
+      <p>
+        Time currently logged
+      </p>
+      <div class="table-container">
+        <table class="table">
+          <tr>
+            <th>Date</th>
+            <th>Time spent</th>
+            <th>Comment</th>
+          </tr>
+          {% for row in log_table %}
+            <tr>
+              <td>{{ row['date'] }}</td>
+              <td>{{ row['time'] }}</td>
+              <td>{{ row['comment'] }}</td>
+              <td>
+                <form action="/hobby" method="post">
+                  <input type="hidden" name="delete" value="{{ row['key'] }}"/>
+                  <input type="hidden" id="hidIdTable" name="hobby" value="{{ hobby }}">
+                  <button class="btn" type="submit">delete</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </table>
+      </div>
+    </div>
+    <div class="hobby-column">
+      {{model_plot}}
+      <div>
+        Set graph date range
+        <form action="/hobby" method="post">Past
+          <select name="plot_range" id="range-select">
+            <option value="7">Week</option>
+            <option value="30">Month</option>
+            <option value="365">Year</option>
+          </select>
+          <input type="hidden" id="hidIdRange" name="hobby" value="{{ hobby }}">
+          <button class="btn" type="submit">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+<script>
+function openLog() {
+  document.getElementById("logForm").style.display = "block";
+}
+
+function closeLog() {
+  document.getElementById("logForm").style.display = "none";
+}
+
+function openAmend() {
+  document.getElementById("amendForm").style.display = "block";
+}
+
+function closeAmend() {
+  document.getElementById("amendForm").style.display = "none";
+}
+
+function openDelete() {
+  document.getElementById("confirm-delete-form").style.display = "block";
+}
+
+function closeDelete() {
+  document.getElementById("confirm-delete-form").style.display = "none";
+}
+</script>
+
+{% endblock %}

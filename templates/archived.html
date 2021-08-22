@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ hobby }}
+{% endblock %}
+
+{% block main %}
+
+<div class="" id="logForm">
+  <form action="/hobby" method="post" class="form-container">
+      <input type="hidden" id="hidActivate" name="hobby" value="{{ hobby }}">
+      <button class="open-button" name="activate" value="true" id="logButton">Activate</button>
+  </form>
+</div>
+
+<button class="open-button" id="amendButton" onclick="openDelete()">Delete</button>
+
+<div class="form-popup" id="deleteForm">
+  <form action="/hobby" method="post" class="form-container">
+    Are you sure?
+    <input type="hidden" id="hidDlt" name="hobby" value="{{ hobby }}">
+    <button type="submit" name="dlt" value="true" class="btn">Delete</button>
+    <button type="button" class="btn cancel" onclick="closeDelete()">Cancel</button>
+  </form>
+</div>
+
+<h3>
+  <div>{{ totalHrs }} hours logged</div>
+</h3>
+
+<div class="hobby-row">
+  <div class="hobby-column">
+    All entries
+    <table class="table">
+      <tr>
+        <th>Date</th>
+        <th>Time spent</th>
+        <th>Comment</th>
+      </tr>
+      {% for row in log_table %}
+        <tr>
+          <td>{{ row['date'] }}</td>
+          <td>{{ row['time'] }}</td>
+          <td>{{ row['comment'] }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div class="hobby-column">
+    {{model_plot}}
+  </div>
+</div>
+
+<script>
+function openDelete() {
+  document.getElementById("deleteForm").style.display = "block";
+}
+
+function closeDelete() {
+  document.getElementById("deleteForm").style.display = "none";
+}
+</script>
+
+{% endblock %}

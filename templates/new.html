@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log New Hobby
+{% endblock %}
+
+{% block main %}
+    <form action="/new" method="post">
+        <div class="form-group">
+            <input name="hobby" placeholder="Hobby Name" type="text" required>*
+        </div>
+        <!--
+        <div>
+            Repeat?
+        </div>
+        <div class="form-group">
+            <select autocomplete="off" autofocus class="form-control" name="repeat" multiple="multiple">
+                <option value="monday">Monday</option>
+                <option value="tuesday">Tuesday</option>
+                <option value="wednesday">Wednesday</option>
+                <option value="thursday">Thursday</option>
+                <option value="friday">Friday</option>
+                <option value="saturday">Saturday</option>
+                <option value="sunday">Sunday</option>
+            </select>
+            <div>
+                Set Reminder?
+            </div>
+        </div>
+        <input type="time" name="reminder">
+        -->
+        <div>
+            <button id = "button" class="btn btn-primary" type="submit">Submit</button>
+        </div>
+        * Required
+
+    </form>
+
+
+{% endblock %}
